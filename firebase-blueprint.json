@@ -1,0 +1,98 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Thông tin người dùng và cài đặt Life OS.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "dailyEnergy": { "type": "number", "description": "Năng lượng ngày (0-100)" },
+        "focus3": { "type": "array", "items": { "type": "string" }, "description": "3 việc quan trọng nhất" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "Công việc cần làm.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "type": "string", "enum": ["todo", "doing", "done"] },
+        "dueDate": { "type": "string", "format": "date-time", "description": "Thời gian hẹn" },
+        "reminded": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "title", "status"]
+    },
+    "Spending": {
+      "title": "Spending",
+      "description": "Quản lý thu chi.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "amount": { "type": "number" },
+        "type": { "type": "string", "enum": ["expense", "income"], "description": "Thu hay Chi" },
+        "scope": { "type": "string", "enum": ["personal", "work"], "description": "Sinh hoạt hay Công việc" },
+        "category": { "type": "string" },
+        "note": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "amount", "type", "scope", "category", "createdAt"]
+    },
+    "Skill": {
+      "title": "Skill",
+      "description": "Kỹ năng đang học.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "progress": { "type": "number", "description": "Tiến độ (0-100)" },
+        "nextStep": { "type": "string" }
+      },
+      "required": ["uid", "name", "progress"]
+    },
+    "Journal": {
+      "title": "Journal Entry",
+      "description": "Nhật ký và ghi chú hàng ngày.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "mood": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "content", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Thông tin cá nhân người dùng."
+    },
+    "/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "Danh sách công việc."
+    },
+    "/skills/{skillId}": {
+      "schema": "Skill",
+      "description": "Danh sách kỹ năng."
+    },
+    "/spending/{spendingId}": {
+      "schema": "Spending",
+      "description": "Danh sách chi tiêu."
+    },
+    "/journal/{journalId}": {
+      "schema": "Journal",
+      "description": "Nhật ký cá nhân."
+    }
+  }
+}
